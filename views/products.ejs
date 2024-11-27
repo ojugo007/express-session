@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <% if(user){ %>
+        <h1>Hello <%= user.username %>!</h1>
+        <% products.forEach((product)=>{%>
+            <ul>
+                <li> <%=product.product_name %> </li>
+            </ul>
+        <%})%>
+        <form action="/logout" method="post">
+            <button type="submit">log out</button>
+        </form>
+    <%} else{ %>
+        <p>user does not exist, create account <a href="/signup"> Register</a></p>
+    <%}%>
+</body>
+</html>

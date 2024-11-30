@@ -47,7 +47,9 @@ app.get("/login", (req, res)=>{
 app.get("/signup", (req, res)=>{
     res.render("signup")
 })
-
+app.get("/reset", (req, res)=>{
+    res.render("reset", {error: null, success: null})
+})
 // request handler to handle sign up, log in and log out 
 app.post("/signup",  (req, res)=>{
    
@@ -101,6 +103,23 @@ app.post("/logout", (req, res)=>{
         res.redirect("/");
     });
 })
+app.post("/reset", async (req, res) =>{
+    const {username, new_password} = req.body
+userModel.findByUsername(username).then(function(sanitizedUser){
+    console.log(username)
+    if (sanitizedUser){
+        sanitizedUser.setPassword(new_password, function(){
+            sanitizedUser.save();
+            res.status(200).json({message: 'password reset successful'});
+        });
+    } else {
+        res.status(500).json({message: 'This user does not exist'});
+    }
+},function(err){
+    console.error(err);
+})
+})
+
 
 app.listen(PORT, ()=>{
     console.log(`server is running on port:${PORT}` )
